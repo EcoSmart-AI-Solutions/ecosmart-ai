@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Manrope, Poppins } from 'next/font/google'
+import { cn } from '../lib/utils'
 import './globals.css'
 
 // 1. Configure Manrope (Primary font)
