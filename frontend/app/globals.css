@@ -21,24 +21,24 @@
   /* --- Colors ----------------------------------------------- */
 
   /* Background / Foreground */
-  --color-background:          hsl(120 10% 97%);   /* #f7f9f7 - page bg     */
-  --color-foreground:          hsl(216 25% 23%);   /* #364153 - body text   */
+  --color-background:          hsl(120 10% 97%);
+  --color-foreground:          hsl(216 25% 23%);
 
   /* Primary (Brand Green) */
-  --color-primary:             hsl(93 49% 39%);    /* #599432 - buttons, links, accents */
-  --color-primary-foreground:  hsl(0 0% 100%);     /* white text on primary */
+  --color-primary:             hsl(93 49% 39%);
+  --color-primary-foreground:  hsl(0 0% 100%);
 
   /* Secondary (Deep Navy) */
-  --color-secondary:           hsl(216 25% 28%);   /* #364153 - headings, labels        */
-  --color-secondary-foreground:hsl(0 0% 100%);     /* white text on secondary           */
+  --color-secondary:           hsl(216 25% 28%);
+  --color-secondary-foreground:hsl(0 0% 100%);
 
-  /* Muted (Subtle text / disabled) */
-  --color-muted:               hsl(120 6% 94%);    /* #f1f4f1 - muted bg    */
-  --color-muted-foreground:    hsl(216 10% 65%);   /* #99a1af - placeholders */
+  /* Muted */
+  --color-muted:               hsl(120 6% 94%);
+  --color-muted-foreground:    hsl(216 10% 65%);
 
-  /* Accent (Light green tint) */
-  --color-accent:              hsl(120 34% 93%);   /* #eaf3e4 - hover tints, badges */
-  --color-accent-foreground:   hsl(93 49% 39%);    /* primary green on accent bg    */
+  /* Accent */
+  --color-accent:              hsl(120 34% 93%);
+  --color-accent-foreground:   hsl(93 49% 39%);
 
   /* Destructive */
   --color-destructive:         hsl(0 84% 60%);
@@ -53,9 +53,9 @@
   --color-popover-foreground:  hsl(216 25% 23%);
 
   /* Border / Input / Ring */
-  --color-border:              hsl(120 8% 88%);    /* #e2e8e2 */
+  --color-border:              hsl(120 8% 88%);
   --color-input:               hsl(120 8% 88%);
-  --color-ring:                hsl(93 49% 39%);    /* primary green focus ring */
+  --color-ring:                hsl(93 49% 39%);
 
   /* --- Shadows ---------------------------------------------- */
   --shadow-shell:  0 24px 70px rgba(10, 26, 14, 0.18);
@@ -65,67 +65,6 @@
   /* --- Animations ------------------------------------------- */
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up:   accordion-up   0.2s ease-out;
-
-  @keyframes accordion-down {
-    from { height: 0; }
-    to   { height: var(--radix-accordion-content-height); }
-  }
-
-  @keyframes accordion-up {
-    from { height: var(--radix-accordion-content-height); }
-    to   { height: 0; }
-  }
-
-  @keyframes fade-in {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-
-  @keyframes slide-up {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes slide-in-from-right {
-    from { transform: translateX(100%); }
-    to   { transform: translateX(0); }
-  }
-
-  @keyframes slide-out-to-right {
-    from { transform: translateX(0); }
-    to   { transform: translateX(100%); }
-  }
-
-  @keyframes slide-in-from-top-2 {
-    from { transform: translateY(-0.5rem); opacity: 0; }
-    to   { transform: translateY(0);       opacity: 1; }
-  }
-
-  @keyframes slide-in-from-bottom-2 {
-    from { transform: translateY(0.5rem); opacity: 0; }
-    to   { transform: translateY(0);      opacity: 1; }
-  }
-
-  @keyframes zoom-in-50 {
-    from { transform: scale(0.5); opacity: 0; }
-    to   { transform: scale(1);   opacity: 1; }
-  }
-
-  @keyframes bounce-in {
-    0%   { opacity: 0; transform: scale(0.8); }
-    70%  { opacity: 1; transform: scale(1.05); }
-    100% { opacity: 1; transform: scale(1); }
-  }
-
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
-
-  @keyframes pulse-glow {
-    0%, 100% { opacity: 0.3; transform: scale(1); }
-    50%       { opacity: 0.5; transform: scale(1.05); }
-  }
 }
 
 /* --- Base -------------------------------------------------- */
@@ -159,9 +98,9 @@
 /* --- Components -------------------------------------------- */
 @layer components {
   /* Scrollbar */
-  ::-webkit-scrollbar       { @apply w-2; }
-  ::-webkit-scrollbar-track { @apply bg-muted; }
-  ::-webkit-scrollbar-thumb { @apply bg-primary rounded-full; }
+  ::-webkit-scrollbar       { width: 0.5rem; }
+  ::-webkit-scrollbar-track { background-color: var(--color-muted); }
+  ::-webkit-scrollbar-thumb { background-color: var(--color-primary); border-radius: 9999px; }
 
   /* Horizontal scroll (e.g. charts, tabs) */
   .scroll-x-thin {
@@ -206,4 +145,65 @@
   .delay-100 { animation-delay: 0.1s; }
   .delay-200 { animation-delay: 0.2s; }
   .delay-300 { animation-delay: 0.3s; }
+}
+
+@keyframes accordion-down {
+  from { height: 0; }
+  to   { height: var(--radix-accordion-content-height); }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to   { height: 0; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slide-in-from-right {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes slide-out-to-right {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
+}
+
+@keyframes slide-in-from-top-2 {
+  from { transform: translateY(-0.5rem); opacity: 0; }
+  to   { transform: translateY(0);       opacity: 1; }
+}
+
+@keyframes slide-in-from-bottom-2 {
+  from { transform: translateY(0.5rem); opacity: 0; }
+  to   { transform: translateY(0);      opacity: 1; }
+}
+
+@keyframes zoom-in-50 {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+}
+
+@keyframes bounce-in {
+  0%   { opacity: 0; transform: scale(0.8); }
+  70%  { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(1.05); }
 }

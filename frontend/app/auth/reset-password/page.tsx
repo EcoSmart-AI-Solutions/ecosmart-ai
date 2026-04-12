@@ -1,3 +1,4 @@
+import Link from "next/link"
 import Image from "next/image"
 import { Eye, Lock, Menu } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
@@ -9,6 +10,7 @@ export default function ResetPasswordPage() {
     return (
         <main className="min-h-screen bg-background px-4 py-3 sm:px-5 sm:py-4">
             <header className="flex items-center justify-between border-b border-border px-3 py-2 sm:px-3 sm:py-2">
+                <Link href="/">
                     <Image
                         src="/images/logo.png"
                         alt="EcoSmart AI logo"
@@ -17,10 +19,11 @@ export default function ResetPasswordPage() {
                         priority
                         className="h-8 w-auto sm:h-9"
                     />
-                    <button type="button" aria-label="Open menu" title="Open menu" className="grid h-10 w-10 place-items-center rounded-full bg-muted text-muted-foreground">
-                        <Menu size={20} />
-                    </button>
-                </header>
+                </Link>
+                <button type="button" aria-label="Open menu" title="Open menu" className="grid h-10 w-10 place-items-center rounded-full bg-muted text-muted-foreground">
+                    <Menu size={20} />
+                </button>
+            </header>
             <section className="">
                 <div className="px-4 py-8 sm:px-10 sm:py-12">
                     <h1 className="text-center text-2xl sm:text-4xl font-bold tracking-tight text-primary">Set New Password</h1>

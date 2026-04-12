@@ -10,14 +10,16 @@ export default function ForgotPasswordPage() {
     return (
         <main className="min-h-screen bg-background px-4 py-3 sm:px-5 sm:py-4">
             <header className="flex items-center justify-between border-b border-border px-3 py-2 sm:px-3 sm:py-2">
-                    <Image
-                        src="/images/logo.png"
-                        alt="EcoSmart AI logo"
-                        width={130}
-                        height={38}
-                        priority
-                        className="h-8 w-auto sm:h-9"
-                    />
+                    <Link href="/">
+                        <Image
+                            src="/images/logo.png"
+                            alt="EcoSmart AI logo"
+                            width={130}
+                            height={38}
+                            priority
+                            className="h-8 w-auto sm:h-9"
+                        />
+                    </Link>
                     <button type="button" aria-label="Open menu" title="Open menu" className="grid h-10 w-10 place-items-center rounded-full bg-muted text-muted-foreground">
                         <Menu size={20} />
                     </button>
