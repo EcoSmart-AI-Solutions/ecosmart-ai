@@ -21,7 +21,7 @@
   /* --- Colors ----------------------------------------------- */
 
   /* Background / Foreground */
-  --color-background:          hsl(120 10% 97%);
+  --color-background:          hsl(0, 0%, 100%);
   --color-foreground:          hsl(216 25% 23%);
 
   /* Primary (Brand Green) */
