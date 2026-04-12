@@ -1,7 +1,8 @@
-import Anthropic from '@anthropic-ai/sdk'; 
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { ENV } from '../config/env';
 
-const client = new Anthropic({ apiKey: ENV.ANTHROPIC_KEY });
+const client = new GoogleGenerativeAI(ENV.GEMINI_KEY);
+const model = client.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
 const SYSTEM_PROMPT = `You are EcoSmart AI, a waste classification assistant for urban Nigeria.
 Given a waste description or image, respond ONLY with valid JSON:
@@ -15,13 +16,8 @@ Given a waste description or image, respond ONLY with valid JSON:
 }`;
 
 export async function classifyWaste(text: string): Promise<Record<string, unknown>> {
-  const msg = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 400,
-    system: SYSTEM_PROMPT,
-    messages: [{ role: 'user', content: `Waste: "${text}"` }],
-  });
-
-  const raw = msg.content.map(b => ('text' in b ? b.text : '')).join('');
+  const prompt = `${SYSTEM_PROMPT}\n\nWaste: "${text}"`;
+  const result = await model.generateContent(prompt);
+  const raw = result.response.text();
   return JSON.parse(raw.replace(/```json|```/g, '').trim());
 }
