@@ -26,7 +26,7 @@ export function CTASection() {
         </h3>
 
         <Link
-          href="/signin"
+          href="/auth/sign-up"
           className="relative z-10 mt-7 inline-flex w-full max-w-107.5 items-center justify-center rounded-full bg-[#599432] px-6 py-4 text-lg font-semibold text-white shadow-[0_12px_30px_rgba(94,159,47,0.28)] transition hover:-translate-y-px hover:bg-[#548f2a]"
         >
           Get Started

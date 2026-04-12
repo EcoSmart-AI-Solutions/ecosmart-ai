@@ -16,7 +16,7 @@ export function Header() {
       </div>
 
       <button 
-      onClick={() => router.push('/signin')}
+      onClick={() => router.push('/auth/sign-in')}
       className="text-sm font-semibold text-[#599432] transition hover:opacity-80">
         Sign In
       </button>

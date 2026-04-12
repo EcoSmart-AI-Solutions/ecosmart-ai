@@ -66,7 +66,7 @@ export function Hero() {
 
         <div className="mt-8 flex flex-col items-center gap-4">
           <Link
-            href="/signin"
+            href="/auth/sign-up"
             className="inline-flex w-full max-w-107.5 items-center justify-center rounded-full bg-[#5e9f2f] px-6 py-4 text-lg font-semibold text-white shadow-[0_12px_30px_rgba(94,159,47,0.28)] transition hover:-translate-y-px hover:bg-[#548f2a]"
           >
             Get Started
