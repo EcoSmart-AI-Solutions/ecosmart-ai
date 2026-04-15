@@ -76,7 +76,7 @@ export default function RecentActivity({
 
                 {!isRecycled && (
                   <button
-                    onClick={() => item._id && markPendingAsRecycled(String(item._id))}
+                    onClick={() => item.id && markPendingAsRecycled(String(item.id))}
                     className="text-sm font-medium text-[#5c9d35] hover:underline"
                   >
                     Mark done

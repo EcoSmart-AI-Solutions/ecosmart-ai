@@ -11,34 +11,41 @@ import EarningsCard from "@/components/dashboard/EarningCards";
 import EcoTipCard from "@/components/dashboard/EcoTips";
 import RecentActivity from "@/components/dashboard/RecentActivity";
 import BottomNav from "@/components/dashboard/BottomNav";
-import ProfileSidebar from "@/components/dashboard/ProfileSidebar";
+import NavigationSidebar from "@/components/dashboard/NavigationSidebar";
 
 import { navItems, quickActions } from "@/lib/dashboard-data";
-
 import {
   createActivity,
   getDashboardData,
   markActivityAsRecycled,
 } from "@/services/dashboard";
-
 import type { ActivityItem } from "@/types/dashboard";
 
-type DashboardResponse = {
-  data: {
-    user: {
-      fullname: string;
-      email: string;
-    };
-    stats: {
-      totalEarnings: number;
-      ecoPoints: number;
-      recycledCount: number;
-      pendingCount: number;
-      totalActivities: number;
-    };
-    recentActivities: ActivityItem[];
-    lastAction: string;
+type RawDashboardResponse = {
+  user: {
+    name: string;
   };
+  stats: {
+    totalEarnings: number;
+    itemsScanned: number;
+  };
+  recentActivity: {
+    id: string;
+    item: string;
+    amount: number;
+    status: string;
+  }[];
+};
+
+type DashboardData = {
+  user: {
+    name: string;
+  };
+  stats: {
+    totalEarnings: number;
+    itemsScanned: number;
+  };
+  recentActivity: ActivityItem[];
 };
 
 export default function EcoSmartDashboardPage() {
@@ -46,21 +53,40 @@ export default function EcoSmartDashboardPage() {
     "home" | "scan" | "activity" | "profile"
   >("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isProfileSidebarOpen, setIsProfileSidebarOpen] = useState(false);
-  const [dashboardData, setDashboardData] =
-    useState<DashboardResponse["data"] | null>(null);
+  const [isNavSidebarOpen, setIsNavSidebarOpen] = useState(false);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") || "" : "";
+  const token = ""; // MOCK MODE
 
   const fetchDashboard = async () => {
     try {
       setLoading(true);
-      const response = await getDashboardData(token);
-      setDashboardData(response.data);
+
+      const response: RawDashboardResponse = await getDashboardData(token);
+
+      const currentUser =
+        typeof window !== "undefined"
+          ? JSON.parse(localStorage.getItem("mockCurrentUser") || "null")
+          : null;
+
+      const formattedData: DashboardData = {
+        user: {
+          name: currentUser?.fullName || response.user.name,
+        },
+        stats: response.stats,
+        recentActivity: response.recentActivity.map((activity) => ({
+          _id: activity.id,
+          title: activity.item,
+          time: "Just now",
+          amount: activity.amount,
+          status: activity.status === "Recycled" ? "Recycled" : "Pending",
+        })),
+      };
+
+      setDashboardData(formattedData);
     } catch (error) {
-      console.error(error);
+      console.error("Dashboard error:", error);
     } finally {
       setLoading(false);
     }
@@ -100,7 +126,7 @@ export default function EcoSmartDashboardPage() {
 
       await fetchDashboard();
     } catch (error) {
-      console.error(error);
+      console.error("Quick action error:", error);
     }
   };
 
@@ -109,7 +135,7 @@ export default function EcoSmartDashboardPage() {
       await markActivityAsRecycled(token, id);
       await fetchDashboard();
     } catch (error) {
-      console.error(error);
+      console.error("Mark recycled error:", error);
     }
   };
 
@@ -124,10 +150,10 @@ export default function EcoSmartDashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#edf3ea] px-3 py-4 sm:px-5 sm:py-6 lg:px-8 lg:py-10">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid gap-6 lg:gap-8 xl:grid-cols-[420px_minmax(0,1fr)]">
-          <section className="mx-auto w-full max-w-107.5 rounded-[28px] border border-black/5 bg-[#f6f7f4] shadow-[0_20px_80px_rgba(0,0,0,0.16)] sm:max-w-125 lg:max-w-107.5 xl:sticky xl:top-8">
+    <main className="min-h-screen bg-[#edf3ea]">
+      <div className="mx-auto w-full">
+        <div className="grid">
+          <section className="w-full border-black/5 bg-[#f6f7f4] shadow-[0_20px_80px_rgba(0,0,0,0.16)]">
             <div className="relative flex min-h-205 flex-col overflow-hidden rounded-[28px] sm:min-h-225">
               <DashboardHeader
                 isMenuOpen={isMenuOpen}
@@ -136,8 +162,8 @@ export default function EcoSmartDashboardPage() {
 
               {isMenuOpen && <QuickMenu />}
 
-              <div className="flex-1 space-y-4 px-4 pb-4 sm:space-y-5 sm:px-6 sm:pb-5">
-                <WelcomeSection name={dashboardData.user.fullname} />
+              <div className="flex-1 space-y-4 px-4 pb-4 sm:space-y-5 sm:px-6 sm:pb-5 lg:px-8 lg:pb-8">
+                <WelcomeSection name={dashboardData.user.name} />
 
                 <ScanCard handleQuickAction={handleQuickAction} />
 
@@ -148,13 +174,13 @@ export default function EcoSmartDashboardPage() {
 
                 <EarningsCard
                   totalEarnings={dashboardData.stats.totalEarnings}
-                  ecoPoints={dashboardData.stats.ecoPoints}
+                  ecoPoints={dashboardData.stats.itemsScanned}
                 />
 
                 <EcoTipCard />
 
                 <RecentActivity
-                  activities={dashboardData.recentActivities}
+                  activities={dashboardData.recentActivity}
                   setActiveTab={setActiveTab}
                   markPendingAsRecycled={handleMarkPendingAsRecycled}
                 />
@@ -164,12 +190,12 @@ export default function EcoSmartDashboardPage() {
                 navItems={navItems}
                 activeTab={activeTab}
                 setActiveTab={setActiveTab}
-                openProfileSidebar={() => setIsProfileSidebarOpen(true)}
+                openProfileSidebar={() => setIsNavSidebarOpen(true)}
               />
 
-              <ProfileSidebar
-                isOpen={isProfileSidebarOpen}
-                onClose={() => setIsProfileSidebarOpen(false)}
+              <NavigationSidebar
+                isOpen={isNavSidebarOpen}
+                onClose={() => setIsNavSidebarOpen(false)}
                 onNavigate={setActiveTab}
               />
             </div>

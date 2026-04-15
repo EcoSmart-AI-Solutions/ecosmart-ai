@@ -3,12 +3,11 @@ import type { ComponentType, Key } from "react";
 export type Status = "Recycled" | "Pending";
 
 export type ActivityItem = {
-  _id: Key | null | undefined;
-  id: number;
+  _id: string;
   title: string;
-  time: string;
-  status: Status;
+  time?: string;
   amount: number;
+  status: "Recycled" | "Pending";
 };
 
 export type QuickAction = {

@@ -1,59 +1,121 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+// MOCK ENABLED
+const USE_MOCK = true;
 
-export async function getDashboardData(token: string) {
-  const res = await fetch(`${API_BASE_URL}/api/dashboard`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+type ActivityStatus = "Recycled" | "Pending";
+
+type MockActivity = {
+  id: string;
+  item: string;
+  amount: number;
+  status: ActivityStatus;
+};
+
+type CreateActivityPayload = {
+  title: string;
+  type: "scan" | "upload" | "manual";
+  status: ActivityStatus;
+  amount: number;
+};
+
+//mock store
+let activities: MockActivity[] = [
+  { id: "1", item: "Plastic Bottle", amount: 200, status: "Recycled" },
+];
+
+// GET DASHBOARD
+
+export async function getDashboardData(_token: string) {
+  await new Promise((resolve) => setTimeout(resolve, 500));
+
+  return {
+    user: { name: "Chizaram" },
+    stats: {
+      totalEarnings: activities
+        .filter((a) => a.status === "Recycled")
+        .reduce((sum, a) => sum + a.amount, 0),
+      itemsScanned: activities.length,
     },
-    cache: "no-store",
+    recentActivity: activities,
+  };
+
+  /*
+   API DISABLED
+
+  const res = await fetch("http://localhost:5000/api/dashboard", {
+    headers: {
+      Authorization: `Bearer ${_token}`,
+    },
   });
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch dashboard data");
-  }
-
+  if (!res.ok) throw new Error("Failed to fetch dashboard data");
   return res.json();
+  */
 }
 
+// CREATE ACTIVITY
+
 export async function createActivity(
-  token: string,
-  payload: {
-    title: string;
-    type: "scan" | "upload" | "manual";
-    status: "Recycled" | "Pending";
-    amount: number;
-  }
+  _token: string,
+  payload: CreateActivityPayload
 ) {
-  const res = await fetch(`${API_BASE_URL}/api/activities`, {
+  await new Promise((resolve) => setTimeout(resolve, 300));
+
+  const newActivity: MockActivity = {
+    id: Date.now().toString(),
+    item: payload.title,
+    amount: payload.amount,
+    status: payload.status,
+  };
+
+  activities = [newActivity, ...activities];
+  return newActivity;
+
+  /*
+   API DISABLED
+
+  const res = await fetch("http://localhost:5000/api/activities", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${_token}`,
     },
     body: JSON.stringify(payload),
   });
 
-  if (!res.ok) {
-    throw new Error("Failed to create activity");
-  }
-
+  if (!res.ok) throw new Error("Failed to create activity");
   return res.json();
+  */
 }
 
-export async function markActivityAsRecycled(token: string, id: string) {
-  const res = await fetch(`${API_BASE_URL}/api/activities/${id}/recycle`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
+// MARK AS RECYCLED
+export async function markActivityAsRecycled(
+  _token: string,
+  id: string
+) {
+  await new Promise((resolve) => setTimeout(resolve, 300));
 
-  if (!res.ok) {
-    throw new Error("Failed to update activity");
-  }
+  activities = activities.map((activity) =>
+    activity.id === id
+      ? { ...activity, status: "Recycled" }
+      : activity
+  );
 
+  return activities.find((a) => a.id === id) ?? null;
+
+  /*
+   API DISABLED
+
+  const res = await fetch(
+    `http://localhost:5000/api/activities/${id}/recycle`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${_token}`,
+      },
+    }
+  );
+
+  if (!res.ok) throw new Error("Failed to update activity");
   return res.json();
+  */
 }

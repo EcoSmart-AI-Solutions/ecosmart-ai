@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import type { NavItem } from "@/types/dashboard";
 
 type BottomNavProps = {
@@ -15,6 +18,8 @@ export default function BottomNav({
   setActiveTab,
   openProfileSidebar,
 }: BottomNavProps) {
+  const router = useRouter();
+
   return (
     <nav className="grid grid-cols-4 border-t border-black/5 bg-white px-3 py-3 sm:px-4 sm:py-4">
       {navItems.map((item) => {
@@ -24,12 +29,32 @@ export default function BottomNav({
         return (
           <button
             key={item.id}
+            type="button"
             onClick={() => {
               if (item.id === "profile") {
                 openProfileSidebar();
-              } else {
-                setActiveTab(item.id);
+                return;
               }
+
+              if (item.id === "scan") {
+                setActiveTab("scan");
+                router.push("/dashboard/scan");
+                return;
+              }
+
+              if (item.id === "activity") {
+                setActiveTab("activity");
+                router.push("/dashboard/activity");
+                return;
+              }
+
+              if (item.id === "home") {
+                setActiveTab("home");
+                router.push("/dashboard");
+                return;
+              }
+
+              setActiveTab(item.id);
             }}
             className="flex flex-col items-center justify-center gap-2 rounded-2xl py-2 text-sm"
           >
