@@ -13,7 +13,7 @@ import {
   LogOut,
 } from "lucide-react";
 
-type ProfileSidebarProps = {
+type NavigationSidebarProps = {
   isOpen: boolean;
   onClose: () => void;
   onNavigate: (tab: "home" | "scan" | "activity" | "profile") => void;
@@ -23,7 +23,7 @@ export default function NavigationSidebar({
   isOpen,
   onClose,
   onNavigate,
-}: ProfileSidebarProps) {
+}: NavigationSidebarProps) {
   const router = useRouter();
   const [user, setUser] = useState<{ fullName: string; email: string } | null>(
     null
@@ -32,7 +32,11 @@ export default function NavigationSidebar({
   useEffect(() => {
     const storedUser = localStorage.getItem("mockCurrentUser");
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch {
+        setUser(null);
+      }
     }
   }, []);
 
@@ -68,7 +72,7 @@ export default function NavigationSidebar({
   const handleGoProfile = () => {
     onNavigate("profile");
     onClose();
-    router.push("/dashboard");
+    router.push("/dashboard/profile");
   };
 
   const handleLogout = () => {
