@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2017",
+    "ignoreDeprecations": "5.0" ,
     "lib": [
       "dom",
       "dom.iterable",
@@ -28,7 +29,6 @@
         "./*"
       ]
     },
-    "ignoreDeprecations": "6.0",
     "plugins": [
       {
         "name": "next"
