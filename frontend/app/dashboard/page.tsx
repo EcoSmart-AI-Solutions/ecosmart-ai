@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 
 import DashboardHeader from "@/components/dashboard/Header";
-import QuickMenu from "@/components/dashboard/QuickMenu";
 import WelcomeSection from "@/components/dashboard/Welcome";
 import ScanCard from "@/components/dashboard/Scan";
 import QuickActions from "@/components/dashboard/QuickActions";
@@ -52,12 +51,11 @@ export default function EcoSmartDashboardPage() {
   const [activeTab, setActiveTab] = useState<
     "home" | "scan" | "activity" | "profile"
   >("home");
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNavSidebarOpen, setIsNavSidebarOpen] = useState(false);
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const token = ""; // MOCK MODE
+  const token = "";
 
   const fetchDashboard = async () => {
     try {
@@ -155,12 +153,7 @@ export default function EcoSmartDashboardPage() {
         <div className="grid">
           <section className="w-full border-black/5 bg-[#f6f7f4] shadow-[0_20px_80px_rgba(0,0,0,0.16)]">
             <div className="relative flex min-h-205 flex-col overflow-hidden rounded-[28px] sm:min-h-225">
-              <DashboardHeader
-                isMenuOpen={isMenuOpen}
-                setIsMenuOpen={setIsMenuOpen}
-              />
-
-              {isMenuOpen && <QuickMenu />}
+              <DashboardHeader openSidebar={() => setIsNavSidebarOpen(true)} />
 
               <div className="flex-1 space-y-4 px-4 pb-4 sm:space-y-5 sm:px-6 sm:pb-5 lg:px-8 lg:pb-8">
                 <WelcomeSection name={dashboardData.user.name} />
@@ -186,12 +179,14 @@ export default function EcoSmartDashboardPage() {
                 />
               </div>
 
-              <BottomNav
-                navItems={navItems}
-                activeTab={activeTab}
-                setActiveTab={setActiveTab}
-                openProfileSidebar={() => setIsNavSidebarOpen(true)}
-              />
+              {!isNavSidebarOpen && (
+                <BottomNav
+                  navItems={navItems}
+                  activeTab={activeTab}
+                  setActiveTab={setActiveTab}
+                  openProfileSidebar={() => {}}
+                />
+              )}
 
               <NavigationSidebar
                 isOpen={isNavSidebarOpen}

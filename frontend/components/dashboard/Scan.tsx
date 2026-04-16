@@ -2,6 +2,7 @@
 
 import { Camera, Upload } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useRef } from "react";
 
 type ScanCardProps = {
   handleQuickAction: (actionId: string) => void;
@@ -9,6 +10,40 @@ type ScanCardProps = {
 
 export default function ScanCard({ handleQuickAction }: ScanCardProps) {
   const router = useRouter();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleUploadClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const imageData = reader.result as string;
+
+      // save the actual selected image
+      sessionStorage.setItem("scannedWasteImage", imageData);
+      localStorage.setItem("scannedWasteImage", imageData);
+
+      // optional metadata
+      sessionStorage.setItem(
+        "scannedWasteMeta",
+        JSON.stringify({
+          name: file.name,
+          type: file.type,
+          size: file.size,
+        })
+      );
+
+      router.push("/dashboard/scan/result");
+    };
+
+    reader.readAsDataURL(file);
+  };
 
   return (
     <section className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#4d973a] via-[#398736] to-[#1f6f33] p-4 text-white shadow-[0_20px_40px_rgba(74,143,67,0.25)] sm:rounded-[28px] sm:p-5">
@@ -16,7 +51,7 @@ export default function ScanCard({ handleQuickAction }: ScanCardProps) {
       <div className="absolute -right-6 top-0 h-32 w-32 rounded-full bg-white/10" />
 
       <div className="relative z-10">
-        <h2 className="text-[1.55rem] text-white font-bold leading-tight sm:text-[1.9rem]">
+        <h2 className="text-[1.55rem] font-bold leading-tight text-white sm:text-[1.9rem]">
           Scan Your Waste
         </h2>
         <p className="mt-1 text-sm text-white/80 sm:text-base">
@@ -35,13 +70,21 @@ export default function ScanCard({ handleQuickAction }: ScanCardProps) {
 
           <button
             type="button"
-            onClick={() => router.push("/dashboard/scan/upload")}
+            onClick={handleUploadClick}
             className="flex items-center justify-center gap-2 rounded-2xl border border-white/30 bg-white/10 px-4 py-3.5 font-semibold text-white backdrop-blur-sm transition hover:bg-white/20 sm:py-4"
           >
             <Upload className="h-5 w-5" />
             Upload
           </button>
         </div>
+
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleFileChange}
+        />
       </div>
     </section>
   );

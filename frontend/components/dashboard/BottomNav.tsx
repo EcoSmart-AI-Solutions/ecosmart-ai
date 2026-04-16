@@ -31,8 +31,9 @@ export default function BottomNav({
             key={item.id}
             type="button"
             onClick={() => {
-              if (item.id === "profile") {
-                openProfileSidebar();
+              if (item.id === "home") {
+                setActiveTab("home");
+                router.push("/dashboard");
                 return;
               }
 
@@ -48,13 +49,13 @@ export default function BottomNav({
                 return;
               }
 
-              if (item.id === "home") {
-                setActiveTab("home");
-                router.push("/dashboard");
+              if (item.id === "profile") {
+                setActiveTab("profile");
+                router.push("/dashboard/profile");
                 return;
               }
 
-              setActiveTab(item.id);
+              openProfileSidebar();
             }}
             className="flex flex-col items-center justify-center gap-2 rounded-2xl py-2 text-sm"
           >

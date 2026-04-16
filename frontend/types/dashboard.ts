@@ -1,4 +1,4 @@
-import type { ComponentType, Key } from "react";
+import type { ComponentType } from "react";
 
 export type Status = "Recycled" | "Pending";
 
@@ -7,7 +7,7 @@ export type ActivityItem = {
   title: string;
   time?: string;
   amount: number;
-  status: "Recycled" | "Pending";
+  status: Status;
 };
 
 export type QuickAction = {

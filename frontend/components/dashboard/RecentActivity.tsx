@@ -1,10 +1,11 @@
 import { Clock3 } from "lucide-react";
+import type { Dispatch, SetStateAction } from "react";
 import type { ActivityItem } from "../../types/dashboard";
 
 type RecentActivityProps = {
   activities: ActivityItem[];
-  setActiveTab: React.Dispatch<
-    React.SetStateAction<"home" | "scan" | "activity" | "profile">
+  setActiveTab: Dispatch<
+    SetStateAction<"home" | "scan" | "activity" | "profile">
   >;
   markPendingAsRecycled: (id: string) => void;
 };
@@ -76,7 +77,7 @@ export default function RecentActivity({
 
                 {!isRecycled && (
                   <button
-                    onClick={() => item.id && markPendingAsRecycled(String(item.id))}
+                    onClick={() => markPendingAsRecycled(item._id)}
                     className="text-sm font-medium text-[#5c9d35] hover:underline"
                   >
                     Mark done
