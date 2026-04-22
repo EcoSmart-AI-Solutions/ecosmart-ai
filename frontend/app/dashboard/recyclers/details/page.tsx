@@ -83,10 +83,13 @@ export default function RecyclerDetailsPage() {
           <div className="flex min-h-screen flex-col">
             <header className="flex items-center justify-between border-b border-black/5 bg-[#f3f4f6] px-5 pb-4 pt-5 sm:px-6 sm:pb-5 sm:pt-6 lg:px-8">
               <div className="flex items-center gap-2 font-semibold text-[#2f7d32]">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[#7bbf71] bg-white sm:h-9 sm:w-9">
-                  <Leaf className="h-4 w-4 sm:h-5 sm:w-5" />
-                </span>
-                <span className="text-lg sm:text-xl">EcoSmart AI</span>
+                <div className="flex items-center gap-2">
+                  <img
+                    src="/images/logo.png"
+                      alt="EcoSmart AI Logo"
+                      className="h-10 w-auto object-contain"
+                  />
+                </div>
               </div>
             </header>
 

@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
-  Leaf,
+  Menu,
   ArrowLeft,
   Search,
   ChevronDown,
@@ -27,7 +27,11 @@ const wasteOptions = [
   "Battery",
 ];
 
-export default function ManualTypePage() {
+type typeprops = {
+  openSidebar: () => void;
+};
+
+export default function ManualTypePage({ openSidebar }: typeprops) {
   const router = useRouter();
   const [query, setQuery] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
@@ -61,13 +65,22 @@ export default function ManualTypePage() {
         <div className="flex justify-center">
           <section className="mx-auto w-full border-black/5 bg-[#f6f7f4] shadow-[0_20px_80px_rgba(0,0,0,0.16)]">
             <div className="flex min-h-205 flex-col overflow-hidden rounded-[28px]">
-              <header className="flex items-center justify-between bg-[#f3f4f6] px-5 pb-4 pt-5 sm:px-6 sm:pt-6">
-                <div className="flex items-center gap-2 font-semibold text-[#2f7d32]">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[#7bbf71] bg-white">
-                    <Leaf className="h-4 w-4" />
-                  </span>
-                  <span className="text-lg">EcoSmart AI</span>
+              <header className="flex items-center justify-between bg-[#f3f4f6] px-5 pb-4 pt-5 sm:px-8 sm:pb-5 sm:pt-7 lg:px-10 lg:pt-8">
+                <div className="flex items-center gap-2">
+                  <img
+                    src="/images/logo.png"
+                      alt="EcoSmart AI Logo"
+                      className="h-10 w-auto object-contain"
+                  />
                 </div>
+
+                <button
+                  onClick={openSidebar}
+                  className="rounded-xl p-2 text-slate-700 transition hover:bg-white"
+                  aria-label="Open navigation"
+                  >
+                  <Menu className="h-6 w-6" />
+                </button>
               </header>
 
               <div className="flex-1 px-5 py-6 sm:px-6">
