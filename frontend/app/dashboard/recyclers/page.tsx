@@ -139,14 +139,17 @@ export default function RecyclersPage() {
   return (
     <main className="min-h-screen bg-[#edf3ea]">
       <div className="mx-auto flex justify-center">
-        <section className="w-full max-w-107.5 min-h-screen bg-[#f6f7f4] shadow-[0_20px_80px_rgba(0,0,0,0.16)]">
+        <section className="w-full  min-h-screen bg-[#f6f7f4] shadow-[0_20px_80px_rgba(0,0,0,0.16)]">
           <div className="flex min-h-screen flex-col overflow-hidden rounded-[28px]">
             <header className="flex items-center justify-between bg-[#f3f4f6] px-5 pb-4 pt-5">
               <div className="flex items-center gap-2 font-semibold text-[#2f7d32]">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full border border-[#7bbf71] bg-white">
-                  <Leaf className="h-4 w-4" />
-                </span>
-                <span className="text-lg">EcoSmart AI</span>
+               <div className="flex items-center gap-2">
+                  <img
+                    src="/images/logo.png"
+                      alt="EcoSmart AI Logo"
+                      className="h-10 w-auto object-contain"
+                  />
+                </div>
               </div>
             </header>
 

@@ -165,7 +165,7 @@ export default function EcoSmartDashboardPage() {
                   handleQuickAction={handleQuickAction}
                 />
 
-                <EarningsCard
+                <EarningsCard 
                   totalEarnings={dashboardData.stats.totalEarnings}
                   ecoPoints={dashboardData.stats.itemsScanned}
                 />
